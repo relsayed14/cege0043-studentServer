@@ -23,9 +23,9 @@ app.use(function (req, res, next) {
 });
 
 // code to return test.html file
-app.get('/test.html', function(req,res) {
+app.get('/test.html', function (req, res) {
 	// run some server-side code
 	console.log('test.html requested');
-	// not that __dirname gives the path to the studentServer.js file
+	// note that __dirname gives the path to the studentServer.js file 
 	res.sendFile(__dirname + '/test.html');
 });
