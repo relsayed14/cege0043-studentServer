@@ -22,6 +22,17 @@ app.use(function (req, res, next) {
 	next();
 });
 
+
+// to allow phonegap to make requests to the server
+var app = express();
+
+app.use(function(req,res,next) {
+	res.header("Access-Control-Allow-Origin","*");
+	res.header("Access-Control-Allow-Headers","X-Requested-With");
+	next();
+});
+
+
 // code to return (serve) any file on the server
 // serve static files - e.g. html, css
 // this should ALWAYS be the last line in the server file
