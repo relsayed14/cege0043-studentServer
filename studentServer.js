@@ -22,10 +22,7 @@ app.use(function (req, res, next) {
 	next();
 });
 
-// code to return test.html file
-app.get('/test.html', function (req, res) {
-	// run some server-side code
-	console.log('test.html requested');
-	// note that __dirname gives the path to the studentServer.js file 
-	res.sendFile(__dirname + '/test.html');
-});
+// code to return (serve) any file on the server
+// serve static files - e.g. html, css
+// this should ALWAYS be the last line in the server file
+app.use(express.static(__dirname));
