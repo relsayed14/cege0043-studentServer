@@ -46,6 +46,17 @@ app.get('/postgistest', function (req,res) {
 });
 
 
+// POST request to studentServer.js
+app.post('/reflectData', function(req,res) {
+	// note that we are using POST here as we are uploading dara
+	// so that the parameters form part of the BODY of the requesr rather
+	// than the RESTful API
+	console.dir(req.body);
+
+	//for now, just echo the request back to the client
+	res.send(req.body);
+})
+
 // add an http server to serve files to the browser 
 // due to the certificate issues, it rejects the https files if they are not
 // directly called in a typed URL
