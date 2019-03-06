@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded ({
 app.use(bodyParser.json());
 
 // set up required database connectivity 
+// this must be before the app stuff
 var fs = require('fs');
 var pg = require('pg');
 
@@ -23,8 +24,26 @@ for (var i = 0; i < configarray.length; i++) {
 	var split = configarray[i].split(':');
 	config[split[0].trim()] = split[1].trim();
 }
-
 var pool = new pg.Pool(config);
+
+
+//testing out the connection
+app.get('/postgistest', function (req,res) {
+	pool.connect(function(err,client,done) {
+       if(err){
+           console.log("not able to get connection "+ err);
+           res.status(400).send(err);
+       }
+       client.query('SELECT name FROM london poi', function(err,result) {
+           done();
+           if(err){
+               console.log(err);
+               res.status(400).send(err);
+}
+           res.status(200).send(result.rows);
+       });
+	}); 
+});
 
 
 // add an http server to serve files to the browser 
