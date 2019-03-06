@@ -3,6 +3,13 @@ var express = require('express');
 var path = require('path');
 var app = express();
 
+// code to process the uploaded data
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded ({
+	extended: true
+}));
+app.use(bodyParser.json());
+
 // add an http server to serve files to the browser 
 // due to the certificate issues, it rejects the https files if they are not
 // directly called in a typed URL
@@ -24,8 +31,6 @@ app.use(function (req, res, next) {
 
 
 // to allow phonegap to make requests to the server
-var app = express();
-
 app.use(function(req,res,next) {
 	res.header("Access-Control-Allow-Origin","*");
 	res.header("Access-Control-Allow-Headers","X-Requested-With");
