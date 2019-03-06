@@ -14,10 +14,18 @@ app.get('/',function(req,res) {
 	res.send('hello world from the HTTP server');
 });
 
-// adding functionality to log the requests
-app.use(function (req,res,next) {
+// adding functionality to log the requests on the console as they come in
+app.use(function (req, res, next) {
 	var filename = path.basename(req.url);
-	var extension = path.extname(filename);
-	console.log("The file " + filename + " was requested.");
+	var extension = path.extname(filename); 
+	console.log("The file " + filename + " was requested."); 
 	next();
-})
+});
+
+// code to return test.html file
+app.get('/test.html', function(req,res) {
+	// run some server-side code
+	console.log('test.html requested');
+	// not that __dirname gives the path to the studentServer.js file
+	res.sendFile(__dirname + '/test.html');
+});
