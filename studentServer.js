@@ -73,7 +73,7 @@ app.post('/uploadData',function(req,res){
        	var module = req.body.module;
        	var portnum = req.body.port_id;
 
-       	var queryString = "INSERT into formdats (name,surname,module,port_id) values ($1,$2,$3,$4) ";
+       	var queryString = "INSERT into formdata (name,surname,module,port_id) values ($1,$2,$3,$4) ";
        	console.log(queryString);
        	client.query(queryString,[name,surname,module,portnum],function(err,result) {
        		done();
