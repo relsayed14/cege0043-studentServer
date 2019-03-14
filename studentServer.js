@@ -34,7 +34,7 @@ app.get('/postgistest', function (req,res) {
            console.log("not able to get connection "+ err);
            res.status(400).send(err);
        }
-       client.query('SELECT name FROM london poi', function(err,result) {
+       client.query('SELECT name FROM london_poi', function(err,result) {
            done();
            if(err){
                console.log(err);
@@ -46,44 +46,51 @@ app.get('/postgistest', function (req,res) {
 });
 
 
-// POST request to studentServer.js
-app.post('/uploadData', function(req,res) {
-	// note that we are using POST here as we are uploading dara
-	// so that the parameters form part of the BODY of the request rather
-	// than the RESTful API
-	console.dir(req.body);
-
-	pool.connect(function(err,client,done) {
-		if(err) {
-			console.log("not able to get connection " + err);
-			res.status(400).send(err);
-		}
-
-var name = req.body.name;
-var surname = req.body.surname;
-var module = req.body.module;
-var portnum = req.body.port_id;
-
-	var querystring = "INSERT into formdata (name,surname,module,port_id) values ($1,$2,$3,$4) ";
-		console.log(querystring);
-		client.query( querystring, [name,surname,module,portnum],function(err,result) {
-			done();
-			if(err) {
-				console.log(err);
-				res.status(400).send(err);
-			}
-			res.status(200).send("row inserted");
-		});
-
-	});
+// POST request to studentServer.js - to reflect the data
+app.post('/reflectData',function(req,res){
+       // note that we are using POST here as we are uploading data
+       // so the parameters form part of the BODY of the request rather
+      //than the RESTful API
+       console.dir(req.body);
+       // for now, just echo the request back to the client
+       res.send(req.body);
 });
 
+
+// POST request to studentServer.js - to upload the data
+app.post('/uploadData',function(req,res){
+       // note that we are using POST here as we are uploading data
+       // so the parameters form part of the BODY of the request rather than the RESTful API
+       console.dir(req.body);
+
+       pool.connect(function(err,client,done) {
+       	if(err) {
+       		console.log("not able to get connection " + err);
+       		res.status(400).send(err);
+       	}
+       	var name = req.body.name;
+       	var surname = req.body.surname;
+       	var module = req.body.module;
+       	var portnum = req.body.port_id;
+
+       	var queryString = "INSERT into formdats (name,surname,module,port_id) values ($1,$2,$3,$4) ";
+       	console.log(queryString);
+       	client.query(queryString,[name,surname,module,portnum],function(err,result) {
+       		done();
+       		if(err) {
+       			console.log(err);
+       			res.status(400).send(err);
+       		}
+       		res.status(200).send("row inserted");
+       	});
+       });
+   });
 // add an http server to serve files to the browser 
 // due to the certificate issues, it rejects the https files if they are not
 // directly called in a typed URL
 var http = require('http');
 var httpServer = http.createServer(app);
-httpServer.listen(4480);
+httpServer.listen(4480); 
 
 app.get('/',function(req,res) {
 	res.send('hello world from the HTTP server');
